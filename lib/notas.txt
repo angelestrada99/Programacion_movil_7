@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int contador = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter'),
+        ),
+        body: Center(
+            child: ListView(
+          shrinkWrap: true, //adaptate al contenido? true
+          children: [
+            Text(
+              '$contador',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 27),
+            ),
+            Text(
+              'Contador de clics',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 27),
+            ),
+          ],
+        )),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.ads_click),
+          onPressed: () {
+            contador++;
+            print('valor del contador $contador');
+            setState(() {});
+          },
+        ),
+      ),
+    );
+  }
+}
