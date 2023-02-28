@@ -3,6 +3,7 @@ import 'package:flutter_1/provider/theme_provider.dart';
 import 'package:flutter_1/routes.dart';
 import 'package:flutter_1/screens/login_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,13 +22,20 @@ class MyApp extends StatelessWidget {
 
 class PMSNApp extends StatelessWidget {
   const PMSNApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    return MaterialApp(
-      theme: theme.getthemeData(),
-      routes: getApplicationRoutes(),
-      home: LoginScreen(),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        Orientation.portrait;
+        DeviceType.mobile;
+        return MaterialApp(
+          theme: theme.getthemeData(),
+          routes: getApplicationRoutes(),
+          home: LoginScreen(),
+        );
+      },
     );
   }
 }

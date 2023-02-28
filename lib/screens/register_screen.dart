@@ -275,12 +275,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Form(
                     key: _keyForm,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        spaceHoriz,
+                        spaceHoriz,
                         tittle,
                         spaceHoriz,
                         //imgProfile,
-                        spaceHoriz,
                         imagen != null
                             ? imgProfile = Image.file(
                                 imagen!,
@@ -313,14 +314,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                           },
                           child: Text('Crear cuenta'),
-                        ),
-                        spaceHoriz,
-                        spaceHoriz,
-                        spaceHoriz,
-                        spaceHoriz,
-                        spaceHoriz,
-                        spaceHoriz,
-                        spaceHoriz,
+                        )
                       ],
                     ),
                   ),
