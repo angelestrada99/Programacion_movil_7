@@ -1,7 +1,8 @@
+import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_1/pages/onboarding_page.dart';
 import 'package:flutter_1/provider/theme_provider.dart';
 import 'package:flutter_1/routes.dart';
-import 'package:flutter_1/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,13 +29,12 @@ class PMSNApp extends StatelessWidget {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
     return Sizer(
       builder: (context, orientation, deviceType) {
-        Orientation.portrait;
-        DeviceType.mobile;
+        Orientation.landscape;
+        DeviceType.web;
         return MaterialApp(
-          theme: theme.getthemeData(),
-          routes: getApplicationRoutes(),
-          home: LoginScreen(),
-        );
+            theme: theme.getthemeData(),
+            routes: getApplicationRoutes(),
+            home: OnboardingPage());
       },
     );
   }

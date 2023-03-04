@@ -1,8 +1,12 @@
+import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+import '../provider/theme_provider.dart';
+import '../settings/styles_settings.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,6 +15,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool isDarkModeEnabled = false;
   final _keyForm = GlobalKey<FormState>();
 
   bool isLoading = false;
@@ -20,18 +25,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
     height: 90,
   );
 
-  final tittle = const Text(
+  final tittle = Text(
     'CREAR CUENTA',
     textAlign: TextAlign.center,
     style: TextStyle(
-        fontSize: 50,
+        fontSize: 20.sp,
         color: Color.fromARGB(255, 255, 255, 255),
         fontStyle: FontStyle.italic),
   );
 
   var imgProfile = Image.asset(
     'assets/profile.png',
-    height: 127,
+    height: 127.h,
   );
 
   File? imagen = null;
@@ -162,10 +167,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
       return null;
     },
-    decoration: const InputDecoration(
+    decoration: InputDecoration(
       labelText: "Nombre(s) *",
-      labelStyle: const TextStyle(
-          color: Colors.white, fontSize: 16, fontWeight: FontWeight.w300),
+      labelStyle: TextStyle(
+          color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
     ),
   );
 
@@ -203,10 +208,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
       return null;
     },
-    decoration: const InputDecoration(
+    decoration: InputDecoration(
       labelText: "Apellidos *",
-      labelStyle: const TextStyle(
-          color: Colors.white, fontSize: 16, fontWeight: FontWeight.w300),
+      labelStyle: TextStyle(
+          color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
     ),
   );
 
@@ -217,12 +222,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
       return null;
     },
-    decoration: const InputDecoration(
+    decoration: InputDecoration(
       labelText: "Email *",
       hintText: "example@gmail.com",
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
-      labelStyle: const TextStyle(
-          color: Colors.white, fontSize: 16, fontWeight: FontWeight.w300),
+      hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
+      labelStyle: TextStyle(
+          color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
       prefixIcon: const Icon(
         Icons.email_outlined,
         color: Colors.white,
@@ -231,6 +236,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   );
 
   final txtPass = TextFormField(
+    obscureText: true,
     validator: (value) {
       if (value!.isEmpty) {
         return "Campo obligatorio*";
@@ -240,10 +246,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
       return null;
     },
-    decoration: const InputDecoration(
+    decoration: InputDecoration(
       labelText: "New password *",
-      labelStyle: const TextStyle(
-          color: Colors.white, fontSize: 16, fontWeight: FontWeight.w300),
+      labelStyle: TextStyle(
+          color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
       prefixIcon: const Icon(
         Icons.password_outlined,
         color: Colors.white,
@@ -251,12 +257,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ),
   );
 
-  final spaceHoriz = const SizedBox(
-    height: 10,
+  final spaceHoriz = SizedBox(
+    height: 4.h,
   );
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider theme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -267,7 +274,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     opacity: 0.72,
                     fit: BoxFit.cover,
                     image: AssetImage('assets/portadaLogin.jpg'))),
-            child: Padding(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
               child: Stack(
                 alignment: Alignment.topCenter,
@@ -285,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         imagen != null
                             ? imgProfile = Image.file(
                                 imagen!,
-                                height: 172,
+                                height: 27.h,
                               )
                             : Center(),
                         spaceHoriz,
@@ -293,7 +300,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onPressed: () {
                             opciones(context);
                           },
-                          child: Text('Añadir foto de perfil'),
+                          child: Text(
+                            'Añadir foto de perfil',
+                          ),
                         ),
                         spaceHoriz,
                         txtName,
@@ -304,7 +313,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         spaceHoriz,
                         txtPass,
                         spaceHoriz,
-                        spaceHoriz,
                         ElevatedButton(
                           onPressed: () {
                             if (_keyForm.currentState!.validate()) {
@@ -313,8 +321,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               print('Validacion erronea');
                             }
                           },
-                          child: Text('Crear cuenta'),
-                        )
+                          child: Text(
+                            'Crear cuenta',
+                          ),
+                        ),
+                        spaceHoriz,
+                        DayNightSwitcher(
+                          isDarkModeEnabled: isDarkModeEnabled,
+                          onStateChanged: (isDarkModeEnabled) {
+                            isDarkModeEnabled
+                                ? theme.setthemeData(
+                                    StylesSettings.darkTheme(context))
+                                : theme.setthemeData(
+                                    StylesSettings.lightTheme(context));
+                            this.isDarkModeEnabled = isDarkModeEnabled;
+                            setState(() {});
+                          },
+                        ),
+                        spaceHoriz,
+                        spaceHoriz,
+                        spaceHoriz
                       ],
                     ),
                   ),

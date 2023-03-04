@@ -1,8 +1,11 @@
+import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import '../provider/theme_provider.dart';
+import '../settings/styles_settings.dart';
 import '../widgets/loading_modal_widget.dart';
-import 'package:flutter_1/responsive.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isDarkModeEnabled = false;
   bool isLoading = false;
 
   final imglogo = Image.asset(
@@ -74,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider theme = Provider.of<ThemeProvider>(context);
     final btnSigIn = SocialLoginButton(
       buttonType: SocialLoginButtonType.generalLogin,
       height: 7.h,
@@ -107,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    opacity: 0.72,
+                    opacity: 0.5,
                     fit: BoxFit.cover,
                     image: AssetImage('assets/Portada.jpeg'))),
             child: SingleChildScrollView(
@@ -118,10 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      spaceHoriz,
-                      spaceHoriz,
-                      spaceHoriz,
-                      spaceHoriz,
                       spaceHoriz,
                       spaceHoriz,
                       spaceHoriz,
@@ -146,7 +147,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       spaceHoriz,
                       btnGit,
                       spaceHoriz,
-                      txtRegister
+                      txtRegister,
+                      DayNightSwitcher(
+                        isDarkModeEnabled: isDarkModeEnabled,
+                        onStateChanged: (isDarkModeEnabled) {
+                          isDarkModeEnabled
+                              ? theme.setthemeData(
+                                  StylesSettings.darkTheme(context))
+                              : theme.setthemeData(
+                                  StylesSettings.lightTheme(context));
+                          this.isDarkModeEnabled = isDarkModeEnabled;
+                          setState(() {});
+                        },
+                      )
                     ],
                   ),
                   /*Positioned(

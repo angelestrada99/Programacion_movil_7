@@ -45,6 +45,8 @@ dependencies:
   email_validator: ^2.1.17
   flutter_svg: ^2.0.2
   sizer: ^2.0.15
+  concentric_transition: ^1.0.3
+  lottie: ^2.2.0
 
 dev_dependencies:
   flutter_test:

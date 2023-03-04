@@ -8,7 +8,7 @@ class StylesSettings {
     return theme.copyWith(
         colorScheme: Theme.of(context)
             .colorScheme
-            .copyWith(primary: Color.fromARGB(255, 245, 209, 8)));
+            .copyWith(primary: Color.fromARGB(255, 95, 53, 5)));
   }
 
   static ThemeData darkTheme(BuildContext context) {
