@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../provider/theme_provider.dart';
+import '../responsive.dart';
 import '../settings/styles_settings.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            contentPadding: EdgeInsets.all(0),
+            contentPadding: const EdgeInsets.all(0),
             content: SingleChildScrollView(
               child: Column(
                 children: [
@@ -112,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     child: Container(
                       padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 117, 209, 74)),
                       child: const Row(
                         children: [
@@ -264,25 +265,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    opacity: 0.72,
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/portadaLogin.jpg'))),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Form(
-                    key: _keyForm,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    return Responsive(
+      mobile: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      opacity: .6,
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/portadaLogin.jpg'))),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         spaceHoriz,
                         spaceHoriz,
@@ -294,13 +294,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 imagen!,
                                 height: 27.h,
                               )
-                            : Center(),
+                            : const Center(),
                         spaceHoriz,
                         ElevatedButton(
                           onPressed: () {
                             opciones(context);
                           },
-                          child: Text(
+                          child: const Text(
                             'Añadir foto de perfil',
                           ),
                         ),
@@ -321,7 +321,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               print('Validacion erronea');
                             }
                           },
-                          child: Text(
+                          child: const Text(
                             'Crear cuenta',
                           ),
                         ),
@@ -343,13 +343,209 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         spaceHoriz
                       ],
                     ),
-                  ),
-                ],
+                    //Positioned(top:100, child: imglogo)
+                  ],
+                ),
               ),
             ),
-          ),
-          //isLoading ? const LoadingModalWidget() : Container()
-        ],
+          ],
+        ),
+      ),
+      tablet: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      opacity: .6,
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/FondoTablet.jpg'))),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Flexible(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            imglogo,
+                          ],
+                        )),
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              spaceHoriz,
+                              spaceHoriz,
+                              tittle,
+                              spaceHoriz,
+                              //imgProfile,
+                              imagen != null
+                                  ? imgProfile = Image.file(
+                                      imagen!,
+                                      height: 27.h,
+                                    )
+                                  : const Center(),
+                              spaceHoriz,
+                              ElevatedButton(
+                                onPressed: () {
+                                  opciones(context);
+                                },
+                                child: const Text(
+                                  'Añadir foto de perfil',
+                                ),
+                              ),
+                              spaceHoriz,
+                              txtName,
+                              spaceHoriz,
+                              txtApe,
+                              spaceHoriz,
+                              txtEmail,
+                              spaceHoriz,
+                              txtPass,
+                              spaceHoriz,
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (_keyForm.currentState!.validate()) {
+                                    print('Validacion exitosa');
+                                  } else {
+                                    print('Validacion erronea');
+                                  }
+                                },
+                                child: const Text(
+                                  'Crear cuenta',
+                                ),
+                              ),
+                              spaceHoriz,
+                              DayNightSwitcher(
+                                isDarkModeEnabled: isDarkModeEnabled,
+                                onStateChanged: (isDarkModeEnabled) {
+                                  isDarkModeEnabled
+                                      ? theme.setthemeData(
+                                          StylesSettings.darkTheme(context))
+                                      : theme.setthemeData(
+                                          StylesSettings.lightTheme(context));
+                                  this.isDarkModeEnabled = isDarkModeEnabled;
+                                  setState(() {});
+                                },
+                              ),
+                              spaceHoriz,
+                              spaceHoriz,
+                              spaceHoriz
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      desktop: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      opacity: .6,
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/FondoDesktop.jpg'))),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Flexible(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            imglogo,
+                          ],
+                        )),
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              spaceHoriz,
+                              spaceHoriz,
+                              tittle,
+                              spaceHoriz,
+                              //imgProfile,
+                              imagen != null
+                                  ? imgProfile = Image.file(
+                                      imagen!,
+                                      height: 27.h,
+                                    )
+                                  : const Center(),
+                              spaceHoriz,
+                              ElevatedButton(
+                                onPressed: () {
+                                  opciones(context);
+                                },
+                                child: const Text(
+                                  'Añadir foto de perfil',
+                                ),
+                              ),
+                              spaceHoriz,
+                              txtName,
+                              spaceHoriz,
+                              txtApe,
+                              spaceHoriz,
+                              txtEmail,
+                              spaceHoriz,
+                              txtPass,
+                              spaceHoriz,
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (_keyForm.currentState!.validate()) {
+                                    print('Validacion exitosa');
+                                  } else {
+                                    print('Validacion erronea');
+                                  }
+                                },
+                                child: const Text(
+                                  'Crear cuenta',
+                                ),
+                              ),
+                              spaceHoriz,
+                              DayNightSwitcher(
+                                isDarkModeEnabled: isDarkModeEnabled,
+                                onStateChanged: (isDarkModeEnabled) {
+                                  isDarkModeEnabled
+                                      ? theme.setthemeData(
+                                          StylesSettings.darkTheme(context))
+                                      : theme.setthemeData(
+                                          StylesSettings.lightTheme(context));
+                                  this.isDarkModeEnabled = isDarkModeEnabled;
+                                  setState(() {});
+                                },
+                              ),
+                              spaceHoriz,
+                              spaceHoriz,
+                              spaceHoriz
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
