@@ -1,6 +1,7 @@
 import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_1/pages/onboarding_page.dart';
+import 'package:flutter_1/provider/flags_provider.dart';
 import 'package:flutter_1/provider/theme_provider.dart';
 import 'package:flutter_1/routes.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider(context)),
+        ChangeNotifierProvider(create: (_) => FlagsProvider())
       ],
       child: PMSNApp(),
     );

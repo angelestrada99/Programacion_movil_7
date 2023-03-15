@@ -42,14 +42,17 @@ class CardCompany extends StatelessWidget {
               const Spacer(flex: 3),
               Flexible(
                 flex: 20,
-                child: Image(image: data.image),
+                child: Image(
+                  image: data.image,
+                  height: 220.h,
+                ),
               ),
               const Spacer(flex: 1),
               Text(
                 data.title.toUpperCase(),
                 style: TextStyle(
                   color: data.titleColor,
-                  fontSize: 10.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
                 ),
@@ -60,12 +63,12 @@ class CardCompany extends StatelessWidget {
                 data.subtitle,
                 style: TextStyle(
                   color: data.subtitleColor,
-                  fontSize: 10.sp,
+                  fontSize: 12.sp,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
               ),
-              const Spacer(flex: 10),
+              const Spacer(flex: 10)
             ],
           ),
         ),

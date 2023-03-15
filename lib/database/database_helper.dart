@@ -1,9 +1,8 @@
 import 'dart:io';
+import 'package:flutter_1/models/post_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-import '../models/post_model.dart';
 
 class DatabaseHelper {
   static final nameDB = 'SOCIALDB';
@@ -18,7 +17,7 @@ class DatabaseHelper {
   _initDatabase() async {
     Directory folder = await getApplicationDocumentsDirectory();
     String pathDB = join(folder.path, nameDB);
-    await openDatabase(
+    return await openDatabase(
       pathDB,
       version: versionDB,
       onCreate: _createTables,
@@ -28,8 +27,8 @@ class DatabaseHelper {
   _createTables(Database db, int version) async {
     String query = '''Create Table tblPost(
       idPost INTEGER primary key,
-      desPost VARCHAR(200),
-      datePost DATE,
+      dscPost VARCHAR(200),
+      datePost VARCHAR(30),
     )''';
     db.execute(query);
   }
@@ -42,12 +41,12 @@ class DatabaseHelper {
   Future<int> UPDATE(String tblName, Map<String, dynamic> data) async {
     var conexion = await database;
     return conexion.update(tblName, data,
-        where: 'idPost = 1', whereArgs: [data['idPost']]);
+        where: 'idPost = ?', whereArgs: [data['idPost']]);
   }
 
   Future<int> DELETE(String tblName, int idPost) async {
     var conexion = await database;
-    return conexion.delete(tblName, where: 'idPost = ', whereArgs: [idPost]);
+    return conexion.delete(tblName, where: 'idPost = ?', whereArgs: [idPost]);
   }
 
   Future<List<PostModel>> GETALLPOST() async {

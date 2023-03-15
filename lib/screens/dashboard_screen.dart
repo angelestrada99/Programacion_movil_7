@@ -1,11 +1,12 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_1/provider/theme_provider.dart';
+import 'package:flutter_1/screens/list_post.dart';
 import 'package:flutter_1/settings/styles_settings.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
-  DashboardScreen({super.key});
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -21,6 +22,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Servicios BMW'),
+      ),
+      body: ListPost(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pushNamed(context, '/add').then((value) {
+            setState(() {});
+          });
+        },
+        label: const Text('Add post'),
+        icon: const Icon(Icons.add_comment),
       ),
       drawer: Drawer(
         child: ListView(

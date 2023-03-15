@@ -281,69 +281,71 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        spaceHoriz,
-                        spaceHoriz,
-                        tittle,
-                        spaceHoriz,
-                        //imgProfile,
-                        imagen != null
-                            ? imgProfile = Image.file(
-                                imagen!,
-                                height: 27.h,
-                              )
-                            : const Center(),
-                        spaceHoriz,
-                        ElevatedButton(
-                          onPressed: () {
-                            opciones(context);
-                          },
-                          child: const Text(
-                            'Añadir foto de perfil',
+                    Form(
+                      key: _keyForm,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          spaceHoriz,
+                          spaceHoriz,
+                          tittle,
+                          spaceHoriz,
+                          //imgProfile,
+                          imagen != null
+                              ? imgProfile = Image.file(
+                                  imagen!,
+                                  height: 27.h,
+                                )
+                              : const Center(),
+                          spaceHoriz,
+                          ElevatedButton(
+                            onPressed: () {
+                              opciones(context);
+                            },
+                            child: const Text(
+                              'Añadir foto de perfil',
+                            ),
                           ),
-                        ),
-                        spaceHoriz,
-                        txtName,
-                        spaceHoriz,
-                        txtApe,
-                        spaceHoriz,
-                        txtEmail,
-                        spaceHoriz,
-                        txtPass,
-                        spaceHoriz,
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_keyForm.currentState!.validate()) {
-                              print('Validacion exitosa');
-                            } else {
-                              print('Validacion erronea');
-                            }
-                          },
-                          child: const Text(
-                            'Crear cuenta',
+                          spaceHoriz,
+                          txtName,
+                          spaceHoriz,
+                          txtApe,
+                          spaceHoriz,
+                          txtEmail,
+                          spaceHoriz,
+                          txtPass,
+                          spaceHoriz,
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_keyForm.currentState!.validate()) {
+                                print('Validacion exitosa');
+                              } else {
+                                print('Validacion erronea');
+                              }
+                            },
+                            child: const Text(
+                              'Crear cuenta',
+                            ),
                           ),
-                        ),
-                        spaceHoriz,
-                        DayNightSwitcher(
-                          isDarkModeEnabled: isDarkModeEnabled,
-                          onStateChanged: (isDarkModeEnabled) {
-                            isDarkModeEnabled
-                                ? theme.setthemeData(
-                                    StylesSettings.darkTheme(context))
-                                : theme.setthemeData(
-                                    StylesSettings.lightTheme(context));
-                            this.isDarkModeEnabled = isDarkModeEnabled;
-                            setState(() {});
-                          },
-                        ),
-                        spaceHoriz,
-                        spaceHoriz,
-                        spaceHoriz
-                      ],
-                    ),
-                    //Positioned(top:100, child: imglogo)
+                          spaceHoriz,
+                          DayNightSwitcher(
+                            isDarkModeEnabled: isDarkModeEnabled,
+                            onStateChanged: (isDarkModeEnabled) {
+                              isDarkModeEnabled
+                                  ? theme.setthemeData(
+                                      StylesSettings.darkTheme(context))
+                                  : theme.setthemeData(
+                                      StylesSettings.lightTheme(context));
+                              this.isDarkModeEnabled = isDarkModeEnabled;
+                              setState(() {});
+                            },
+                          ),
+                          spaceHoriz,
+                          spaceHoriz,
+                          spaceHoriz
+                        ],
+                      ),
+                    ), //Positioned(top:100, child: imglogo)
                   ],
                 ),
               ),

@@ -1,8 +1,10 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 //import 'package:sizer/sizer.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import '../provider/tema_provider.dart';
 import '../provider/theme_provider.dart';
 import '../responsive.dart';
 import '../settings/styles_settings.dart';
@@ -15,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final temaController = Get.put(TemaProvider());
   bool isDarkModeEnabled = false;
   bool isLoading = false;
 
