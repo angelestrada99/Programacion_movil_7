@@ -18,14 +18,14 @@ class ItemPostWidget extends StatelessWidget {
     );
 
     final txtUser = Text('  Ricardo Estrada  ');
-    final datePost = Text('  07-mrz-23');
+    final datePost = Text(objPostModel!.datePost!);
     final imgPost = Image(
       image: AssetImage(
         'assets/conquist.png',
       ),
       height: 100,
     );
-    final txtDesc = Text('Descripcion de la publicacion del post');
+    final txtDesc = Text(objPostModel!.dscPost.toString());
     final iconRate = Icon(Icons.rate_review);
 
     FlagsProvider flag = Provider.of<FlagsProvider>(context);
@@ -48,7 +48,12 @@ class ItemPostWidget extends StatelessWidget {
             children: [
               iconRate,
               Expanded(child: Container()),
-              IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/add',
+                        arguments: objPostModel);
+                  },
+                  icon: Icon(Icons.edit)),
               IconButton(
                   onPressed: () {
                     showDialog(
@@ -60,7 +65,8 @@ class ItemPostWidget extends StatelessWidget {
                           TextButton(
                               onPressed: () {
                                 database
-                                    .DELETE('tblPost', objPostModel!.idPost!)
+                                    .DELETE('tblPost', objPostModel!.idPost!,
+                                        'idPost')
                                     .then((value) => flag.setflagListPost());
                                 Navigator.pop(context);
                               },

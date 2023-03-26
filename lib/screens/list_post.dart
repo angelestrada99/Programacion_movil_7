@@ -39,7 +39,7 @@ class _ListPostState extends State<ListPost> {
           );
         } else if (snapshot.hasError) {
           return const Center(
-            child: Text('Ocurrio un error'),
+            child: Text('Ocurrio un error de BD'),
           );
         } else {
           return const Center(

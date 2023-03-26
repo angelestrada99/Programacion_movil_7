@@ -15,23 +15,43 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   bool isDarkModeEnabled = false;
 
+  final spaceHoriz = SizedBox(
+    height: 7,
+  );
+
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Servicios BMW'),
       ),
       body: ListPost(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add').then((value) {
-            setState(() {});
-          });
-        },
-        label: const Text('Add post'),
-        icon: const Icon(Icons.add_comment),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: "btn1",
+            onPressed: () {
+              Navigator.pushNamed(context, '/add').then((value) {
+                setState(() {});
+              });
+            },
+            label: const Text('Add post'),
+            icon: const Icon(Icons.add_comment),
+          ),
+          spaceHoriz,
+          FloatingActionButton.extended(
+            heroTag: "btn2",
+            onPressed: () {
+              Navigator.pushNamed(context, '/events').then((value) {
+                setState(() {});
+              });
+            },
+            label: const Text('Eventos'),
+            icon: const Icon(Icons.calendar_month),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -50,6 +70,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               leading: Icon(Icons.settings),
               trailing: Icon(Icons.chevron_right),
             ),
+            ListTile(
+              onTap: () => Navigator.pushNamed(context, '/popular'),
+              title: Text('API VIDEOS'),
+              leading: Icon(Icons.movie),
+              trailing: Icon(Icons.chevron_right),
+            ),
             DayNightSwitcher(
               isDarkModeEnabled: isDarkModeEnabled,
               onStateChanged: (isDarkModeEnabled) {
@@ -59,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 this.isDarkModeEnabled = isDarkModeEnabled;
                 setState(() {});
               },
-            )
+            ),
           ],
         ),
       ),
