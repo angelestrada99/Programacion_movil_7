@@ -30,8 +30,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
           padding: EdgeInsets.all(15),
           height: 350,
           decoration: BoxDecoration(
-            color: Colors.amber,
-            border: Border.all(color: Colors.greenAccent),
+            color: Colors.green,
+            border: Border.all(color: Colors.black),
           ),
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,

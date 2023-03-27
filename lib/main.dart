@@ -5,13 +5,14 @@ import 'package:flutter_1/pages/onboarding_page.dart';
 import 'package:flutter_1/provider/flags_provider.dart';
 import 'package:flutter_1/provider/theme_provider.dart';
 import 'package:flutter_1/routes.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized;
   //await Firebase.initializeApp();
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

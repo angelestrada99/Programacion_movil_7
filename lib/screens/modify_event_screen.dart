@@ -22,11 +22,11 @@ class _ModifyEventState extends State<ModifyEvent> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Modificar evento'),
+        title: const Text('Modificar evento'),
       ),
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(color: Colors.grey),
@@ -34,20 +34,20 @@ class _ModifyEventState extends State<ModifyEvent> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 'Descripción del evento:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               TextFormField(
                 controller: txtdscEvent,
                 maxLines: 5,
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Completado:',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -62,10 +62,17 @@ class _ModifyEventState extends State<ModifyEvent> {
                   ),
                 ],
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancelar'),
+                    style: ElevatedButton.styleFrom(primary: Colors.grey),
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       database!
@@ -80,22 +87,15 @@ class _ModifyEventState extends State<ModifyEvent> {
                               'idEvento')
                           .then((value) {
                         var msg = value > 0
-                            ? 'Registro modificado'
+                            ? 'Evento modificado'
                             : 'Ocurrio un error';
                         var snackBar = SnackBar(content: Text(msg));
-                        Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       });
+                      setState(() {});
                       Navigator.pop(context);
                     },
-                    child: Text('Guardar'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Cancelar'),
-                    style: ElevatedButton.styleFrom(primary: Colors.grey),
+                    child: const Text('Guardar'),
                   ),
                 ],
               ),
