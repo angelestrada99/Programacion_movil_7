@@ -3,6 +3,7 @@ import 'package:flutter_1/database/database_helper.dart';
 import 'package:flutter_1/models/post_model.dart';
 import 'package:flutter_1/provider/flags_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 class AddPostScreen extends StatefulWidget {
   AddPostScreen({super.key});
@@ -30,7 +31,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
           padding: EdgeInsets.all(15),
           height: 350,
           decoration: BoxDecoration(
-            color: Colors.green,
+            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0),
             border: Border.all(color: Colors.black),
           ),
           child: Column(

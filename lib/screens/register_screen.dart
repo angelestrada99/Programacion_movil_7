@@ -1,6 +1,7 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_1/firebase/email_auth.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  EmailAuth? emailAuth;
+  TextEditingController? email;
+  TextEditingController? password;
   bool isDarkModeEnabled = false;
   final _keyForm = GlobalKey<FormState>();
 
@@ -318,6 +322,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ElevatedButton(
                             onPressed: () {
                               if (_keyForm.currentState!.validate()) {
+                                emailAuth!.createUserWithEmailAndPassword(
+                                    email: email!.text,
+                                    password: password!.text);
+                                Navigator.pushNamed(context, '/dash');
                                 print('Validacion exitosa');
                               } else {
                                 print('Validacion erronea');
@@ -414,6 +422,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   if (_keyForm.currentState!.validate()) {
+                                    emailAuth!.createUserWithEmailAndPassword(
+                                        email: email!.text,
+                                        password: password!.text);
+                                    Navigator.pushNamed(context, '/dash');
                                     print('Validacion exitosa');
                                   } else {
                                     print('Validacion erronea');
@@ -512,6 +524,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   if (_keyForm.currentState!.validate()) {
+                                    emailAuth!.createUserWithEmailAndPassword(
+                                        email: email!.text,
+                                        password: password!.text);
+                                    Navigator.pushNamed(context, '/dash');
                                     print('Validacion exitosa');
                                   } else {
                                     print('Validacion erronea');

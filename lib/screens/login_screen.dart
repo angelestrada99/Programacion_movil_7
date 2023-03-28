@@ -1,5 +1,6 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_1/firebase/email_auth.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 //import 'package:sizer/sizer.dart';
@@ -18,6 +19,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final temaController = Get.put(TemaProvider());
+  EmailAuth emailAuth = EmailAuth();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   bool isDarkModeEnabled = false;
   bool isLoading = false;
 
@@ -89,18 +93,26 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
     final btnSigIn = SocialLoginButton(
-      buttonType: SocialLoginButtonType.generalLogin,
-      height: 52,
-      onPressed: () {
-        isLoading = true;
-        setState(() {});
-        Future.delayed(const Duration(milliseconds: 4000)).then((value) {
+        buttonType: SocialLoginButtonType.generalLogin,
+        height: 52,
+        onPressed: () {
+          //AQUI PODRIA IR TAMBIEN LA VALIDACIÓN!!!!!!
+          isLoading = true;
+          setState(() {});
+          //Future.delayed(const Duration(milliseconds: 4000)).then((value) {
+          emailAuth
+              .signWithEmailandPassword(
+                  email: email.text, password: password.text)
+              .then((value) {
+            if (value) {
+              Navigator.pushNamed(context, '/dash');
+            } else {
+              printError();
+            }
+          });
           isLoading = false;
           setState(() {});
-          Navigator.pushNamed(context, '/dash');
         });
-      },
-    );
 
     final txtRegister = Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
