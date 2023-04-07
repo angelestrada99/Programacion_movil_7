@@ -19,11 +19,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final temaController = Get.put(TemaProvider());
-  EmailAuth emailAuth = EmailAuth();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
   bool isDarkModeEnabled = false;
   bool isLoading = false;
+  EmailAuth emailAuth = EmailAuth();
+  TextEditingController? txtemailCont = TextEditingController();
+  TextEditingController? txtPassController = TextEditingController();
 
   final imglogo = Image.asset(
     'assets/bmw.png',
@@ -39,32 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
     'LOGIN',
     textAlign: TextAlign.center,
     style: TextStyle(fontSize: 40),
-  );
-
-  final txtEmail = TextFormField(
-    validator: (value) => value!.isEmpty ? "Correo requerido" : null,
-    decoration: const InputDecoration(
-      labelText: "Email",
-      labelStyle: TextStyle(
-          color: Colors.white, fontSize: 10, fontWeight: FontWeight.w300),
-      prefixIcon: Icon(
-        Icons.email_outlined,
-        color: Colors.white,
-      ),
-    ),
-  );
-
-  final txtPass = TextFormField(
-    validator: (value) => value!.isEmpty ? "Correo requerido" : null,
-    decoration: const InputDecoration(
-      labelText: "New password",
-      labelStyle: TextStyle(
-          color: Colors.white, fontSize: 10, fontWeight: FontWeight.w300),
-      prefixIcon: Icon(
-        Icons.password_outlined,
-        color: Colors.white,
-      ),
-    ),
   );
 
   final spaceHoriz = const SizedBox(
@@ -92,27 +66,55 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    final txtEmail = TextFormField(
+      validator: (value) => value!.isEmpty ? "Correo requerido" : null,
+      controller: txtemailCont,
+      decoration: const InputDecoration(
+        labelText: "Email",
+        labelStyle: TextStyle(
+            color: Colors.white, fontSize: 10, fontWeight: FontWeight.w300),
+        prefixIcon: Icon(
+          Icons.email_outlined,
+          color: Colors.white,
+        ),
+      ),
+    );
+
+    final txtPass = TextFormField(
+      validator: (value) => value!.isEmpty ? "Correo requerido" : null,
+      controller: txtPassController,
+      decoration: const InputDecoration(
+        labelText: "New password",
+        labelStyle: TextStyle(
+            color: Colors.white, fontSize: 10, fontWeight: FontWeight.w300),
+        prefixIcon: Icon(
+          Icons.password_outlined,
+          color: Colors.white,
+        ),
+      ),
+    );
     final btnSigIn = SocialLoginButton(
-        buttonType: SocialLoginButtonType.generalLogin,
-        height: 52,
-        onPressed: () {
-          //AQUI PODRIA IR TAMBIEN LA VALIDACIÓN!!!!!!
-          isLoading = true;
-          setState(() {});
-          //Future.delayed(const Duration(milliseconds: 4000)).then((value) {
-          emailAuth
-              .signWithEmailandPassword(
-                  email: email.text, password: password.text)
-              .then((value) {
-            if (value) {
-              Navigator.pushNamed(context, '/dash');
-            } else {
-              printError();
-            }
-          });
+      buttonType: SocialLoginButtonType.generalLogin,
+      height: 52,
+      onPressed: () {
+        isLoading = true;
+        setState(() {});
+        Future.delayed(const Duration(milliseconds: 4000)).then((value) {
+          /*emailAuth!
+            .signInWithEmailAndPassword(
+                email: txtemailCont!.text, password: txtPassController!.text)
+            .then((value) {
+          if (value) {
+            Navigator.pushNamed(context, '/dash');
+          } else {
+            const SnackBar(content: Text('Error de logeo'));
+          }*/
           isLoading = false;
           setState(() {});
+          Navigator.pushNamed(context, '/dash');
         });
+      },
+    );
 
     final txtRegister = Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),

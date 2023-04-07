@@ -3,6 +3,7 @@ import 'package:flutter_1/database/database_helper.dart';
 import 'package:flutter_1/models/post_model.dart';
 import 'package:flutter_1/provider/flags_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 class ItemPostWidget extends StatelessWidget {
   ItemPostWidget({super.key, this.objPostModel});
@@ -35,7 +36,9 @@ class ItemPostWidget extends StatelessWidget {
       height: 250,
       width: double.infinity,
       decoration: BoxDecoration(
-          color: Colors.green, borderRadius: BorderRadius.circular(10)),
+        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+            .withOpacity(1.0),
+      ),
       child: Column(
         children: [
           Row(
