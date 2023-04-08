@@ -106,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((value) {
           if (value) {
             Navigator.pushNamed(context, '/dash');
+            isLoading=false;
           } else {
+            isLoading=false;
             const SnackBar(content: Text('Error de logeo'));
           }*/
           isLoading = false;

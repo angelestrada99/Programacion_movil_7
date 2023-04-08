@@ -14,7 +14,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   bool isDarkModeEnabled = false;
-
+  //AudioPlayer audioPlayer = AudioPlayer();
   final spaceHoriz = SizedBox(
     height: 7,
   );
@@ -76,6 +76,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
               leading: Icon(Icons.movie),
               trailing: Icon(Icons.chevron_right),
             ),
+            /* ListTile(
+              onTap: () async {
+                await audioPlayer.play(
+                    'https://vgmsite.com/soundtracks/clash-royale-original-game-soundtrack/afzbmphjha/Scroll%20Loading%2001.mp3');
+                Future.delayed(Duration(seconds: 1))
+                    .then((_) => {Navigator.pushNamed(context, '/clash')});
+              },
+              title: Text('Clash royale'),
+              leading: Icon(Icons.gamepad),
+              trailing: Icon(Icons.chevron_right),
+            ), */
             DayNightSwitcher(
               isDarkModeEnabled: isDarkModeEnabled,
               onStateChanged: (isDarkModeEnabled) {
