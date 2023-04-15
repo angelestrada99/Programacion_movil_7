@@ -76,6 +76,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               leading: Icon(Icons.movie),
               trailing: Icon(Icons.chevron_right),
             ),
+            ListTile(
+              onTap: () => Navigator.pushNamed(context, '/gif'),
+              title: Text('GHIPS'),
+              leading: Icon(Icons.gif_box_sharp),
+              trailing: Icon(Icons.chevron_right),
+            ),
             DayNightSwitcher(
               isDarkModeEnabled: isDarkModeEnabled,
               onStateChanged: (isDarkModeEnabled) {
