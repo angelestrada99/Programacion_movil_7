@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +6,11 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
 import '../provider/theme_provider.dart';
 import '../responsive.dart';
 import '../settings/styles_settings.dart';
+import 'package:flutter_1/firebase/email_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,10 +20,12 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isDarkModeEnabled = false;
-  final _keyForm = GlobalKey<FormState>();
-
   bool isLoading = false;
-
+  bool _showImage = false;
+  EmailAuth emailAuth = EmailAuth();
+  final txtemailController = TextEditingController();
+  final txtPassController = TextEditingController();
+  final _keyForm = GlobalKey<FormState>();
   final imglogo = Image.asset(
     'assets/bmw.png',
     height: 90,
@@ -43,6 +48,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   File? imagen = null;
 
   final picker = ImagePicker();
+
+  void _resetForm() {
+    _keyForm.currentState?.reset();
+  }
 
   Future selImagen(op) async {
     var pickerFile;
@@ -216,48 +225,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ),
   );
 
-  final txtEmail = TextFormField(
-    validator: (value) {
-      if (value!.isEmpty || !(EmailValidator.validate(value))) {
-        return "Se requiere ingresar un correo valido";
-      }
-      return null;
-    },
-    decoration: InputDecoration(
-      labelText: "Email *",
-      hintText: "example@gmail.com",
-      hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
-      labelStyle: TextStyle(
-          color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
-      prefixIcon: const Icon(
-        Icons.email_outlined,
-        color: Colors.white,
-      ),
-    ),
-  );
-
-  final txtPass = TextFormField(
-    obscureText: true,
-    validator: (value) {
-      if (value!.isEmpty) {
-        return "Campo obligatorio*";
-      }
-      if (value.length < 4) {
-        return "Se requiere una contraseña mas fuerte";
-      }
-      return null;
-    },
-    decoration: InputDecoration(
-      labelText: "New password *",
-      labelStyle: TextStyle(
-          color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
-      prefixIcon: const Icon(
-        Icons.password_outlined,
-        color: Colors.white,
-      ),
-    ),
-  );
-
   final spaceHoriz = SizedBox(
     height: 4.h,
   );
@@ -265,6 +232,63 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    final txtEmail = TextFormField(
+      controller: txtemailController,
+      validator: (value) {
+        if (value!.isEmpty || !(EmailValidator.validate(value))) {
+          return "Se requiere ingresar un correo valido";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Email *",
+        hintText: "example@gmail.com",
+        hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
+        labelStyle: TextStyle(
+            color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
+        prefixIcon: const Icon(
+          Icons.email_outlined,
+          color: Colors.white,
+        ),
+      ),
+      keyboardType: TextInputType.emailAddress,
+    );
+
+    final txtPass = TextFormField(
+      controller: txtPassController,
+      obscureText: true,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Campo obligatorio*";
+        }
+        if (value.length < 7) {
+          return "Se requiere una contraseña mas fuerte";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "New password *",
+        labelStyle: TextStyle(
+            color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w300),
+        prefixIcon: const Icon(
+          Icons.password_outlined,
+          color: Colors.white,
+        ),
+      ),
+    );
+
+    final GoToMenu = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/main');
+          },
+          child: const Text(
+            'Iniciar sesion',
+            style:
+                TextStyle(fontSize: 22, decoration: TextDecoration.underline),
+          )),
+    );
     return Responsive(
       mobile: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -319,6 +343,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onPressed: () {
                               if (_keyForm.currentState!.validate()) {
                                 print('Validacion exitosa');
+                                emailAuth.registerWithEmailAndPassword(
+                                    email: txtemailController.text,
+                                    password: txtPassController.text);
+                                setState(() {
+                                  _resetForm();
+                                  imagen = null;
+                                  _showImage = true;
+                                });
+                                Timer(Duration(seconds: 7), () {
+                                  setState(() {
+                                    _showImage = false;
+                                  });
+                                });
+                                //Para acceder a los otros campos usamos las variables _image, _name, _email y _passwo
                               } else {
                                 print('Validacion erronea');
                               }
@@ -327,6 +365,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               'Crear cuenta',
                             ),
                           ),
+                          if (_showImage)
+                            Image.asset(
+                              'assets/register_ok.png',
+                            ),
+                          GoToMenu,
                           spaceHoriz,
                           DayNightSwitcher(
                             isDarkModeEnabled: isDarkModeEnabled,
@@ -342,7 +385,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           spaceHoriz,
                           spaceHoriz,
-                          spaceHoriz
+                          spaceHoriz,
                         ],
                       ),
                     ), //Positioned(top:100, child: imglogo)
@@ -415,6 +458,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onPressed: () {
                                   if (_keyForm.currentState!.validate()) {
                                     print('Validacion exitosa');
+                                    emailAuth.registerWithEmailAndPassword(
+                                        email: txtemailController.text,
+                                        password: txtPassController.text);
+                                    setState(() {
+                                      _resetForm();
+                                      imagen = null;
+                                      _showImage = true;
+                                    });
+                                    Timer(Duration(seconds: 7), () {
+                                      setState(() {
+                                        _showImage = false;
+                                      });
+                                    });
+                                    //Para acceder a los otros campos usamos las variables _image, _name, _email y _passwo
                                   } else {
                                     print('Validacion erronea');
                                   }
@@ -423,6 +480,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'Crear cuenta',
                                 ),
                               ),
+                              if (_showImage)
+                                Image.asset(
+                                  'assets/register_ok.png',
+                                ),
+                              GoToMenu,
                               spaceHoriz,
                               DayNightSwitcher(
                                 isDarkModeEnabled: isDarkModeEnabled,
@@ -513,6 +575,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onPressed: () {
                                   if (_keyForm.currentState!.validate()) {
                                     print('Validacion exitosa');
+                                    emailAuth.registerWithEmailAndPassword(
+                                        email: txtemailController.text,
+                                        password: txtPassController.text);
+                                    setState(() {
+                                      _resetForm();
+                                      imagen = null;
+                                      _showImage = true;
+                                    });
+                                    Timer(Duration(seconds: 7), () {
+                                      setState(() {
+                                        _showImage = false;
+                                      });
+                                    });
+                                    //Para acceder a los otros campos usamos las variables _image, _name, _email y _passwo
                                   } else {
                                     print('Validacion erronea');
                                   }
@@ -521,6 +597,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'Crear cuenta',
                                 ),
                               ),
+                              if (_showImage)
+                                Image.network(
+                                  'https://dimaws-abogados.com.mx/wp-content/uploads/2021/09/Registro_Exitoso-removebg-preview.png',
+                                ),
+                              GoToMenu,
                               spaceHoriz,
                               DayNightSwitcher(
                                 isDarkModeEnabled: isDarkModeEnabled,

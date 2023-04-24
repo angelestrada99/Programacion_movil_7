@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_1/models/more_giph_model.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'dart:math' as math;
 
 class MoreGifs extends StatefulWidget {
   const MoreGifs({super.key});

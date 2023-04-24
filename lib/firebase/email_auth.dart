@@ -11,13 +11,13 @@ class EmailAuth {
       final UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       userCredential.user!.sendEmailVerification();
-      print('User registered: ${userCredential.user}');
+      print('Datos del usuario registrado: ${userCredential.user}');
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        print('Passsword muy debil (7 caracteres es lo ideal)');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        print('Esta cuenta ya esta actualmente registrada');
       }
       return false;
     }
@@ -27,6 +27,8 @@ class EmailAuth {
     required String email,
     required String password,
   }) async {
+    print("ESTE ES EL EMAIL!!: " + email);
+    print("ESTE ES EL PASSWORD!!: " + password);
     try {
       final UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
@@ -34,9 +36,10 @@ class EmailAuth {
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        print('Ningun usuario registrado con esta direccion de correo');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        print(
+            'La contrasena no coincide con el usuario que usted esta indicando');
       }
       return false;
     }

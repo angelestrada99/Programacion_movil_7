@@ -1,5 +1,7 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_1/firebase/email_auth.dart';
+import 'package:flutter_1/models/user_model.dart';
 import 'package:flutter_1/provider/theme_provider.dart';
 import 'package:flutter_1/screens/list_post.dart';
 import 'package:flutter_1/settings/styles_settings.dart';
@@ -14,7 +16,9 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   bool isDarkModeEnabled = false;
-  //AudioPlayer audioPlayer = AudioPlayer();
+  //Awesome awesome = Awesome();
+  EmailAuth emailAuth = EmailAuth();
+  UserModel datosUsuario = UserModel();
   final spaceHoriz = SizedBox(
     height: 7,
   );
@@ -22,6 +26,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      datosUsuario = ModalRoute.of(context)!.settings.arguments as UserModel;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Servicios BMW'),
@@ -56,13 +63,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       drawer: Drawer(
         child: ListView(
           children: [
-            const UserAccountsDrawerHeader(
+            UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
+                  //backgroundImage: NetworkImage(datosUsuario!.photoUrl.toString()),
                   backgroundImage: NetworkImage(
                       'https://st3.depositphotos.com/1004920/12992/v/950/depositphotos_129925354-stock-illustration-head-of-lynx-isolated-on.jpg'),
                 ),
-                accountName: Text('Estrada Garcia Angel Ricardo'),
-                accountEmail: Text('18030883@itcelaya.edu.mx')),
+                accountName: Text('Ricardo Estrada'),
+                accountEmail: Text('your_email@gmail.com')),
             ListTile(
               onTap: () {},
               title: Text('Pago de servicios'),
@@ -82,6 +90,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
               leading: Icon(Icons.gif_box_sharp),
               trailing: Icon(Icons.chevron_right),
             ),
+            ListTile(
+                onTap: () => Navigator.pushNamed(context, '/main'),
+                title: Text('Cerrar sesion'),
+                leading: Icon(Icons.logout)),
+/*             ListTile(
+              onTap: () {
+                try {
+                  awesome
+                      .buildDialog(
+                          context,
+                          DialogType.infoReverse,
+                          'Confirmar',
+                          '¿Realmente desea cerrar sesion?',
+                          '/login',
+                          AnimType.bottomSlide,
+                          true)
+                      .show()
+                      .then((value) {
+                    print(value);
+                  });
+                } catch (e) {
+                  print(e);
+                }
+              },
+              title: const Text('Cerrar sesion'),
+              leading: const Icon(Icons.logout),
+            ), */
             DayNightSwitcher(
               isDarkModeEnabled: isDarkModeEnabled,
               onStateChanged: (isDarkModeEnabled) {

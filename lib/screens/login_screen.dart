@@ -1,6 +1,8 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_1/firebase/email_auth.dart';
+import 'package:flutter_1/firebase/facebook_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 //import 'package:sizer/sizer.dart';
@@ -22,7 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isDarkModeEnabled = false;
   bool isLoading = false;
   EmailAuth emailAuth = EmailAuth();
-  TextEditingController? txtemailCont = TextEditingController();
+  FaceAuth fbAuth = FaceAuth();
+  TextEditingController? txtemailController = TextEditingController();
   TextEditingController? txtPassController = TextEditingController();
 
   final imglogo = Image.asset(
@@ -45,6 +48,33 @@ class _LoginScreenState extends State<LoginScreen> {
     height: 10,
   );
 
+  Widget _buildLoginButton() {
+    return SocialLoginButton(
+      buttonType: SocialLoginButtonType.generalLogin,
+      onPressed: () {
+        isLoading = true;
+        setState(() {});
+        print(txtemailController!.text);
+        print(txtPassController!.text);
+        emailAuth!
+            .signInWithEmailAndPassword(
+                email: txtemailController!.text,
+                password: txtPassController!.text)
+            .then((value) {
+          if (value) {
+            Navigator.pushNamed(context, '/dash');
+            isLoading = false;
+          } else {
+            isLoading = false;
+            SnackBar(
+              content: Text('Acceso denegado'),
+            );
+          }
+        });
+      },
+    );
+  }
+
   final btnFB = SocialLoginButton(
     buttonType: SocialLoginButtonType.facebook,
     height: 52,
@@ -66,9 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    final txtEmail = TextFormField(
-      validator: (value) => value!.isEmpty ? "Correo requerido" : null,
-      controller: txtemailCont,
+    final labelEmail = TextFormField(
+      //validator: (value) => value!.isEmpty ? "Correo requerido" : null,
+      controller: txtemailController,
       decoration: const InputDecoration(
         labelText: "Email",
         labelStyle: TextStyle(
@@ -80,8 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-    final txtPass = TextFormField(
-      validator: (value) => value!.isEmpty ? "Correo requerido" : null,
+    final labelPass = TextFormField(
+      //validator: (value) => value!.isEmpty ? "Correo requerido" : null,
+      obscureText: true,
       controller: txtPassController,
       decoration: const InputDecoration(
         labelText: "New password",
@@ -93,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+
     final btnSigIn = SocialLoginButton(
       buttonType: SocialLoginButtonType.generalLogin,
       height: 52,
@@ -118,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
 
-    final txtRegister = Padding(
+    final GoToRegister = Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: TextButton(
           onPressed: () {
@@ -174,11 +206,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         spaceHoriz,
                         tittle,
                         spaceHoriz,
-                        txtEmail,
+                        labelEmail,
                         spaceHoriz,
-                        txtPass,
+                        labelPass,
                         spaceHoriz,
-                        btnSigIn,
+                        _buildLoginButton(),
                         spaceHoriz,
                         btnFB,
                         spaceHoriz,
@@ -186,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         spaceHoriz,
                         btnGit,
                         spaceHoriz,
-                        txtRegister,
+                        GoToRegister,
                         spaceHoriz,
                         DayNightSwitcher(
                           isDarkModeEnabled: isDarkModeEnabled,
@@ -255,11 +287,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               tittle,
                               spaceHoriz,
-                              txtEmail,
+                              labelEmail,
                               spaceHoriz,
-                              txtPass,
+                              labelPass,
                               spaceHoriz,
-                              btnSigIn,
+                              _buildLoginButton(),
                               spaceHoriz,
                               btnFB,
                               spaceHoriz,
@@ -267,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               btnGit,
                               spaceHoriz,
-                              txtRegister,
+                              GoToRegister,
                               spaceHoriz,
                               DayNightSwitcher(
                                 isDarkModeEnabled: isDarkModeEnabled,
@@ -338,11 +370,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               tittle,
                               spaceHoriz,
-                              txtEmail,
+                              labelEmail,
                               spaceHoriz,
-                              txtPass,
+                              labelPass,
                               spaceHoriz,
-                              btnSigIn,
+                              _buildLoginButton(),
                               spaceHoriz,
                               btnFB,
                               spaceHoriz,
@@ -350,7 +382,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               btnGit,
                               spaceHoriz,
-                              txtRegister,
+                              GoToRegister,
                               spaceHoriz,
                               DayNightSwitcher(
                                 isDarkModeEnabled: isDarkModeEnabled,
