@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_1/firebase/email_auth.dart';
 import 'package:flutter_1/models/user_model.dart';
 import 'package:flutter_1/provider/theme_provider.dart';
+import 'package:flutter_1/screens/list_favorites_cloud.dart';
 import 'package:flutter_1/screens/list_post.dart';
 import 'package:flutter_1/settings/styles_settings.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +18,11 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   bool isDarkModeEnabled = false;
-  //Awesome awesome = Awesome();
+  bool _showImage = false;
   EmailAuth emailAuth = EmailAuth();
   UserModel datosUsuario = UserModel();
-  final spaceHoriz = SizedBox(
+
+  final spaceHoriz = const SizedBox(
     height: 7,
   );
 
@@ -33,7 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: const Text('Servicios BMW'),
       ),
-      body: ListPost(),
+      body: const ListPost(),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -63,7 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       drawer: Drawer(
         child: ListView(
           children: [
-            UserAccountsDrawerHeader(
+            const UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
                   //backgroundImage: NetworkImage(datosUsuario!.photoUrl.toString()),
                   backgroundImage: NetworkImage(
@@ -73,50 +76,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 accountEmail: Text('your_email@gmail.com')),
             ListTile(
               onTap: () {},
-              title: Text('Pago de servicios'),
-              subtitle: Text('Desgloce de mis servicios'),
-              leading: Icon(Icons.settings),
-              trailing: Icon(Icons.chevron_right),
+              title: const Text('Pago de servicios'),
+              subtitle: const Text('Desgloce de mis servicios'),
+              leading: const Icon(Icons.settings),
+              trailing: const Icon(Icons.chevron_right),
             ),
             ListTile(
               onTap: () => Navigator.pushNamed(context, '/popular'),
-              title: Text('API VIDEOS'),
-              leading: Icon(Icons.movie),
-              trailing: Icon(Icons.chevron_right),
+              title: const Text('API MOVIES'),
+              leading: const Icon(Icons.movie),
+              trailing: const Icon(Icons.chevron_right),
+            ),
+            ListTile(
+              onTap: () => Navigator.pushNamed(context, '/best'),
+              title: const Text('THE BEST MOVIES'),
+              leading: const Icon(Icons.star),
+              trailing: const Icon(Icons.chevron_right),
             ),
             ListTile(
               onTap: () => Navigator.pushNamed(context, '/gif'),
-              title: Text('GHIPS'),
-              leading: Icon(Icons.gif_box_sharp),
-              trailing: Icon(Icons.chevron_right),
+              title: const Text('GHIPS'),
+              leading: const Icon(Icons.gif_box_sharp),
+              trailing: const Icon(Icons.chevron_right),
             ),
-            ListTile(
-                onTap: () => Navigator.pushNamed(context, '/main'),
-                title: Text('Cerrar sesion'),
-                leading: Icon(Icons.logout)),
-/*             ListTile(
-              onTap: () {
-                try {
-                  awesome
-                      .buildDialog(
-                          context,
-                          DialogType.infoReverse,
-                          'Confirmar',
-                          '¿Realmente desea cerrar sesion?',
-                          '/login',
-                          AnimType.bottomSlide,
-                          true)
-                      .show()
-                      .then((value) {
-                    print(value);
-                  });
-                } catch (e) {
-                  print(e);
-                }
-              },
-              title: const Text('Cerrar sesion'),
-              leading: const Icon(Icons.logout),
-            ), */
             DayNightSwitcher(
               isDarkModeEnabled: isDarkModeEnabled,
               onStateChanged: (isDarkModeEnabled) {
@@ -127,6 +109,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 setState(() {});
               },
             ),
+            ListTile(
+                onTap: () {
+                  setState(() {
+                    _showImage = true;
+                  });
+                  Timer(const Duration(seconds: 5), () {
+                    setState(() {
+                      _showImage = false;
+                      Navigator.pushNamed(context, '/main');
+                    });
+                  });
+                },
+                title: const Text('Cerrar sesión'),
+                leading: const Icon(Icons.logout)),
+            if (_showImage)
+              Image.network(
+                'https://pa1.narvii.com/6514/bfa57b69f59d94ae868ae1914d9e5bbbdc8814cd_hq.gif',
+              ),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_1/firebase/email_auth.dart';
 import 'package:flutter_1/firebase/facebook_auth.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 //import 'package:sizer/sizer.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import '../firebase/google_auth.dart';
 import '../provider/tema_provider.dart';
 import '../provider/theme_provider.dart';
 import '../responsive.dart';
@@ -81,12 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
     onPressed: () {},
   );
 
-  final btnGoogle = SocialLoginButton(
-    buttonType: SocialLoginButtonType.google,
-    height: 52,
-    onPressed: () {},
-  );
-
   final btnGit = SocialLoginButton(
     buttonType: SocialLoginButtonType.github,
     height: 52,
@@ -150,6 +146,18 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
 
+    Widget btnGoogle() {
+      return SocialLoginButton(
+        buttonType: SocialLoginButtonType.google,
+        height: 52,
+        onPressed: () async {
+          User? user = await GoogleAuth.iniciarSesion(context: context);
+          print(user?.displayName);
+          Navigator.pushNamed(context, '/dash');
+        },
+      );
+    }
+
     final GoToRegister = Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: TextButton(
@@ -162,6 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextStyle(fontSize: 22, decoration: TextDecoration.underline),
           )),
     );
+
     final txtTheme = Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: TextButton(
@@ -174,6 +183,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextStyle(fontSize: 22, decoration: TextDecoration.underline),
           )),
     );
+
+    /*android/app/src/main/res/values/strings.xml
+    <string name="facebook_app_id">671613821641511</string>
+    <string name="fb_login_protocol_scheme">fb671613821641511</string>
+    <string name="facebook_client_token">08b07dcc46e9796262e8011f8adaaf9f</string>*/
+
     //RETORNO DE ELEMENTOS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return Responsive(
       //MOVIL
@@ -214,7 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         spaceHoriz,
                         btnFB,
                         spaceHoriz,
-                        btnGoogle,
+                        btnGoogle(),
                         spaceHoriz,
                         btnGit,
                         spaceHoriz,
@@ -295,7 +310,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               btnFB,
                               spaceHoriz,
-                              btnGoogle,
+                              btnGoogle(),
                               spaceHoriz,
                               btnGit,
                               spaceHoriz,
@@ -378,7 +393,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               btnFB,
                               spaceHoriz,
-                              btnGoogle,
+                              btnGoogle(),
                               spaceHoriz,
                               btnGit,
                               spaceHoriz,

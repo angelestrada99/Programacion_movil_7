@@ -53,9 +53,11 @@ dependencies:
   http: ^0.13.5
   firebase_auth: ^4.3.0
   firebase_core: ^2.8.0
-  youtube_player_flutter: ^8.1.2
-  flutter_facebook_auth: ^5.0.8
+  cloud_firestore: ^4.5.2
+  font_awesome_flutter: ^10.4.0
   google_sign_in: ^6.1.0
+  flutter_facebook_auth: ^5.0.8
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:

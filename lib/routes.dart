@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_1/screens/add_post_screen.dart';
+import 'package:flutter_1/screens/best_movies.dart';
 import 'package:flutter_1/screens/events_screen.dart';
+import 'package:flutter_1/screens/list_favorites_cloud.dart';
 import 'package:flutter_1/screens/list_gifs.dart';
 import 'package:flutter_1/screens/list_popular_videos.dart';
 import 'package:flutter_1/screens/login_screen.dart';
@@ -23,6 +25,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/modify': (BuildContext context) => ModifyEvent(),
     '/popular': (BuildContext context) => const ListPopularVideos(),
     '/gif': (BuildContext context) => const ListGifs(),
-    '/moreAboutGiph': (BuildContext context) => const MoreGifs()
+    '/moreAboutGiph': (BuildContext context) => const MoreGifs(),
+    '/favorites': (BuildContext context) => const ListFavoritesCloud(),
+    '/best': (BuildContext context) => const BestMovies(),
   };
 }
