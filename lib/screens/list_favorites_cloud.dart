@@ -20,7 +20,7 @@ class _ListFavoritesCloudState extends State<ListFavoritesCloud> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return Text(snapshot.data!.docs[index].get('poster_path'));
+                return Text(snapshot.data!.docs[index].get('tittle'));
               },
             );
           } else if (snapshot.hasError) {
