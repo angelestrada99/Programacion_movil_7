@@ -2,13 +2,12 @@ import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_1/firebase/email_auth.dart';
-import 'package:flutter_1/firebase/facebook_auth.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 //import 'package:sizer/sizer.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import '../firebase/google_auth.dart';
+import 'package:flutter_1/firebase/facebook_auth.dart';
 import '../provider/tema_provider.dart';
 import '../provider/theme_provider.dart';
 import '../responsive.dart';
@@ -26,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isDarkModeEnabled = false;
   bool isLoading = false;
   EmailAuth emailAuth = EmailAuth();
-  FaceAuth fbAuth = FaceAuth();
   TextEditingController? txtemailController = TextEditingController();
   TextEditingController? txtPassController = TextEditingController();
 
@@ -76,12 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
   }
-
-  final btnFB = SocialLoginButton(
-    buttonType: SocialLoginButtonType.facebook,
-    height: 52,
-    onPressed: () {},
-  );
 
   final btnGit = SocialLoginButton(
     buttonType: SocialLoginButtonType.github,
@@ -146,12 +138,26 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
 
+    Widget btnFB() {
+      return SocialLoginButton(
+        buttonType: SocialLoginButtonType.facebook,
+        height: 52,
+        onPressed: () async {
+          User? user = await FacebookAuth.iniciarSesion(context: context);
+          print(user?.displayName);
+          //aqui debe ir una condición para que no entre directo
+          Navigator.pushNamed(context, '/dash');
+        },
+      );
+    }
+
     Widget btnGoogle() {
       return SocialLoginButton(
         buttonType: SocialLoginButtonType.google,
         height: 52,
         onPressed: () async {
           User? user = await GoogleAuth.iniciarSesion(context: context);
+          //aqui debe ir una condición para que no entre directo
           print(user?.displayName);
           Navigator.pushNamed(context, '/dash');
         },
@@ -227,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         spaceHoriz,
                         _buildLoginButton(),
                         spaceHoriz,
-                        btnFB,
+                        btnFB(),
                         spaceHoriz,
                         btnGoogle(),
                         spaceHoriz,
@@ -308,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               _buildLoginButton(),
                               spaceHoriz,
-                              btnFB,
+                              btnFB(),
                               spaceHoriz,
                               btnGoogle(),
                               spaceHoriz,
@@ -391,7 +397,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               spaceHoriz,
                               _buildLoginButton(),
                               spaceHoriz,
-                              btnFB,
+                              btnFB(),
                               spaceHoriz,
                               btnGoogle(),
                               spaceHoriz,
